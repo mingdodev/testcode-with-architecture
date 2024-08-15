@@ -49,6 +49,7 @@ public class PostServiceTest {
         Assertions.assertThat(result.getCreatedAt()).isGreaterThan(0);
     }
 
+    @Test
     void postUpdateDto로_게시글_수정() {
         // given
         PostUpdateDto postUpdateDto = PostUpdateDto.builder()
