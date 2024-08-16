@@ -14,7 +14,7 @@ import java.util.Optional;
 public class UserRepositoryTest {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserJpaRepository userRepository;
 
 //    @Test
 //    void UserRepository_가_제대로_연결되었다() {
