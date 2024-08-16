@@ -37,7 +37,7 @@ public class UserCreateControllerTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    void 사용자는_회원가입을할수있고_회원가입된사용자는_PENDING상태임() throws Exception {
+    void 사용자는_회원가입을_할_수_있고_회원가입된_사용자는_PENDING_상태이다() throws Exception {
         // given
         UserCreateDto userCreateDto = UserCreateDto.builder()
                 .email("user1@naver.com")
