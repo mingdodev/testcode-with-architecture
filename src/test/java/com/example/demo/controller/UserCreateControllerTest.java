@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.dto.UserCreateDto;
-import com.example.demo.model.dto.UserUpdateDto;
+import com.example.demo.user.domain.UserCreate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
@@ -39,7 +38,7 @@ public class UserCreateControllerTest {
     @Test
     void 사용자는_회원가입을_할_수_있고_회원가입된_사용자는_PENDING_상태이다() throws Exception {
         // given
-        UserCreateDto userCreateDto = UserCreateDto.builder()
+        UserCreate userCreateDto = UserCreate.builder()
                 .email("user1@naver.com")
                 .nickname("user1")
                 .address("Pangyo")

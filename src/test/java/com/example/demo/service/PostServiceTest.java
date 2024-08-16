@@ -1,8 +1,9 @@
 package com.example.demo.service;
 
-import com.example.demo.model.dto.PostCreateDto;
-import com.example.demo.model.dto.PostUpdateDto;
-import com.example.demo.repository.PostEntity;
+import com.example.demo.post.domain.PostCreate;
+import com.example.demo.post.domain.PostUpdate;
+import com.example.demo.post.infrastructure.PostEntity;
+import com.example.demo.post.service.PostService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class PostServiceTest {
     @Test
     void postCreateDto로_게시글_작성() {
         // given
-        PostCreateDto postCreateDto = PostCreateDto.builder()
+        PostCreate postCreateDto = PostCreate.builder()
                 .writerId(1)
                 .content("foobar")
                 .build();
@@ -52,7 +53,7 @@ public class PostServiceTest {
     @Test
     void postUpdateDto로_게시글_수정() {
         // given
-        PostUpdateDto postUpdateDto = PostUpdateDto.builder()
+        PostUpdate postUpdateDto = PostUpdate.builder()
                 .content("--.-.--.")
                 .build();
 
