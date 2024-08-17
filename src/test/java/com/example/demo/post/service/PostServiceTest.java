@@ -1,5 +1,6 @@
 package com.example.demo.post.service;
 
+import com.example.demo.post.domain.Post;
 import com.example.demo.post.domain.PostCreate;
 import com.example.demo.post.domain.PostUpdate;
 import com.example.demo.post.infrastructure.PostEntity;
@@ -25,7 +26,7 @@ public class PostServiceTest {
     void getById는_존재하는_게시물을_내려준다() {
         // given
         // when
-        PostEntity result = postService.getById(1);
+        Post result = postService.getById(1);
 
         // then
         Assertions.assertThat(result.getContent()).isEqualTo("helloworld");
@@ -41,7 +42,7 @@ public class PostServiceTest {
                 .build();
 
         // when
-        PostEntity result = postService.create(postCreateDto);
+        Post result = postService.create(postCreateDto);
 
         // then
         Assertions.assertThat(result.getContent()).isEqualTo("foobar");
@@ -52,17 +53,17 @@ public class PostServiceTest {
     @Test
     void postUpdateDto로_게시글_수정() {
         // given
-        PostUpdate postUpdateDto = PostUpdate.builder()
-                .content("--.-.--.")
+        PostUpdate postUpdate = PostUpdate.builder()
+                .content("외않되")
                 .build();
 
         // when
-        postService.update(1, postUpdateDto);
+        postService.update(1, postUpdate);
 
         // then
-        PostEntity postEntity = postService.getById(1);
-        Assertions.assertThat(postEntity.getContent()).isEqualTo("--.-.--.");
-        Assertions.assertThat(postEntity.getModifiedAt()).isGreaterThan(0);
+        Post post = postService.getById(1);
+        Assertions.assertThat(post.getContent()).isEqualTo("외않되");
+        Assertions.assertThat(post.getModifiedAt()).isGreaterThan(0);
     }
 
 }

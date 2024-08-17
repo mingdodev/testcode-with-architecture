@@ -2,6 +2,7 @@ package com.example.demo.user.service;
 
 import com.example.demo.common.domain.exception.CertificationCodeNotMatchedException;
 import com.example.demo.common.domain.exception.ResourceNotFoundException;
+import com.example.demo.user.domain.User;
 import com.example.demo.user.domain.UserStatus;
 import com.example.demo.user.domain.UserCreate;
 import com.example.demo.user.domain.UserUpdate;
@@ -41,7 +42,7 @@ public class UserServiceTest {
         String email = "user1@naver.com";
 
         // when
-        UserEntity result = userService.getByEmail(email);
+        User result = userService.getByEmail(email);
 
         // then
         Assertions.assertThat(result.getNickname()).isEqualTo("user1");
@@ -56,7 +57,7 @@ public class UserServiceTest {
         // then
         // 해당 람다식이 호출되면 이 에러가 발생한다.
         assertThatThrownBy(() -> {
-            UserEntity result = userService.getByEmail(email);
+            User result = userService.getByEmail(email);
         }).isInstanceOf(ResourceNotFoundException.class);
     }
 
@@ -64,7 +65,7 @@ public class UserServiceTest {
     void getById은_ACTIVE_상태인_유저를_찾아올_수_있다() {
         // given
         // when
-        UserEntity result = userService.getById(1);
+        User result = userService.getById(1);
 
         // then
         Assertions.assertThat(result.getNickname()).isEqualTo("user1");
@@ -77,7 +78,7 @@ public class UserServiceTest {
         // then
         // 해당 람다식이 호출되면 이 에러가 발생한다.
         assertThatThrownBy(() -> {
-            UserEntity result = userService.getById(2);
+            User result = userService.getById(2);
         }).isInstanceOf(ResourceNotFoundException.class);
     }
 
@@ -93,7 +94,7 @@ public class UserServiceTest {
         BDDMockito.doNothing().when(mailSender).send(any(SimpleMailMessage.class));
 
         // when
-        UserEntity result = userService.create(userCreateDto);
+        User result = userService.create(userCreateDto);
 
         // then
         Assertions.assertThat(result.getId()).isNotNull();
@@ -113,10 +114,10 @@ public class UserServiceTest {
         userService.update(1, userUpdateDto);
 
         // then
-        UserEntity userEntity = userService.getById(1);
-        Assertions.assertThat(userEntity.getId()).isNotNull();
-        Assertions.assertThat(userEntity.getAddress()).isEqualTo("Incheon");
-        Assertions.assertThat(userEntity.getNickname()).isEqualTo("userHI");
+        User user = userService.getById(1);
+        Assertions.assertThat(user.getId()).isNotNull();
+        Assertions.assertThat(user.getAddress()).isEqualTo("Incheon");
+        Assertions.assertThat(user.getNickname()).isEqualTo("userHI");
     }
 
     @Test
@@ -126,9 +127,9 @@ public class UserServiceTest {
         userService.login(1);
 
         // then
-        UserEntity userEntity = userService.getById(1);
-        Assertions.assertThat(userEntity.getLastLoginAt()).isGreaterThan(0L);
-        // Assertions.assertThat(userEntity.getLastLoginAt()).isEqualTo("너무오래걸린다이거"); // FIXME
+        User user = userService.getById(1);
+        Assertions.assertThat(user.getLastLoginAt()).isGreaterThan(0L);
+        // Assertions.assertThat(user.getLastLoginAt()).isEqualTo("너무오래걸린다이거"); // FIXME
     }
 
     @Test
@@ -138,8 +139,8 @@ public class UserServiceTest {
         userService.verifyEmail(2, "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaab");
 
         // then
-        UserEntity userEntity = userService.getById(2);
-        Assertions.assertThat(userEntity.getStatus()).isEqualTo(UserStatus.ACTIVE);
+        User user = userService.getById(2);
+        Assertions.assertThat(user.getStatus()).isEqualTo(UserStatus.ACTIVE);
     }
 
     @Test
