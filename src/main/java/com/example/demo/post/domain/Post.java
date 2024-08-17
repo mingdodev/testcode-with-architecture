@@ -39,7 +39,7 @@ public class Post {
                 .content(postUpdate.getContent())
                 .writer(writer)
                 .createdAt(createdAt)
-                .modifiedAt(modifiedAt)
+                .modifiedAt(Clock.systemUTC().millis())
                 .build();
     }
 }

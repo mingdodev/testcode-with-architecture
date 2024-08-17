@@ -45,6 +45,7 @@ public class PostServiceTest {
         Post result = postService.create(postCreateDto);
 
         // then
+        System.out.println(result.getModifiedAt());
         Assertions.assertThat(result.getContent()).isEqualTo("foobar");
         Assertions.assertThat(result.getId()).isNotNull();
         Assertions.assertThat(result.getCreatedAt()).isGreaterThan(0);
@@ -54,7 +55,7 @@ public class PostServiceTest {
     void postUpdateDto로_게시글_수정() {
         // given
         PostUpdate postUpdate = PostUpdate.builder()
-                .content("외않되")
+                .content("그러지마세요")
                 .build();
 
         // when
@@ -62,7 +63,7 @@ public class PostServiceTest {
 
         // then
         Post post = postService.getById(1);
-        Assertions.assertThat(post.getContent()).isEqualTo("외않되");
+        Assertions.assertThat(post.getContent()).isEqualTo("그러지마세요");
         Assertions.assertThat(post.getModifiedAt()).isGreaterThan(0);
     }
 

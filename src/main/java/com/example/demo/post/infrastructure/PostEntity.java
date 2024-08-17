@@ -52,6 +52,7 @@ public class PostEntity {
                 .id(id)
                 .content(content)
                 .createdAt(createdAt)
+                .modifiedAt(modifiedAt)
                 .writer(writer.toModel())
                 .build();
     }
