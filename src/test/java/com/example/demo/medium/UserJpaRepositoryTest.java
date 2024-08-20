@@ -1,6 +1,8 @@
-package com.example.demo.user.infrastructure;
+package com.example.demo.medium;
 
 import com.example.demo.user.domain.UserStatus;
+import com.example.demo.user.infrastructure.UserEntity;
+import com.example.demo.user.infrastructure.UserJpaRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,27 +13,27 @@ import java.util.Optional;
 
 @DataJpaTest(showSql = true)
 @Sql("/sql/user-repository-test-data.sql")
-public class UserRepositoryTest {
+public class UserJpaRepositoryTest {
 
     @Autowired
     private UserJpaRepository userRepository;
 
-//    @Test
-//    void UserRepository_가_제대로_연결되었다() {
-//        // given
-//        UserEntity userEntity = new UserEntity();
-//        userEntity.setEmail("alstj3224@naver.com");
-//        userEntity.setAddress("Seoul");
-//        userEntity.setNickname("hi");
-//        userEntity.setStatus(UserStatus.ACTIVE);
-//        userEntity.setCertificationCode("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
-//
-//        // when
-//        UserEntity result = userRepository.save(userEntity);
-//
-//        // then
-//        Assertions.assertThat(result.getId()).isNotNull();
-//    }
+    //    @Test
+    //    void UserRepository_가_제대로_연결되었다() {
+    //        // given
+    //        UserEntity userEntity = new UserEntity();
+    //        userEntity.setEmail("alstj3224@naver.com");
+    //        userEntity.setAddress("Seoul");
+    //        userEntity.setNickname("hi");
+    //        userEntity.setStatus(UserStatus.ACTIVE);
+    //        userEntity.setCertificationCode("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
+    //
+    //        // when
+    //        UserEntity result = userRepository.save(userEntity);
+    //
+    //        // then
+    //        Assertions.assertThat(result.getId()).isNotNull();
+    //    }
 
     @Test
     void findByIdAndStatus_로_유저_데이터를_찾아올_수_있다() {

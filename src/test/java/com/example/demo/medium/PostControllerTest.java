@@ -1,4 +1,4 @@
-package com.example.demo.post.controller;
+package com.example.demo.medium;
 
 import com.example.demo.post.domain.PostUpdate;
 import com.fasterxml.jackson.databind.ObjectMapper;
