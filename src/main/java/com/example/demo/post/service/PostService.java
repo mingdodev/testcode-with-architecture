@@ -11,22 +11,26 @@ import com.example.demo.user.domain.User;
 import com.example.demo.user.service.UserService;
 import com.example.demo.user.infrastructure.UserEntity;
 import java.time.Clock;
+
+import com.example.demo.user.service.port.UserRepository;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@Builder
 @RequiredArgsConstructor
 public class PostService {
 
     private final PostRepository postRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     public Post getById(long id) {
         return postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Posts", id));
     }
 
     public Post create(PostCreate postCreate) {
-        User writer = userService.getById(postCreate.getWriterId());
+        User writer = userRepository.getById(postCreate.getWriterId());
         Post post = Post.from(writer, postCreate);
         return postRepository.save(post);
     }
