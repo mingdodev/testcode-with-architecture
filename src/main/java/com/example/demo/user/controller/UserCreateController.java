@@ -1,6 +1,5 @@
 package com.example.demo.user.controller;
 
-import com.example.demo.user.controller.port.UserCreateService;
 import com.example.demo.user.controller.port.UserService;
 import com.example.demo.user.domain.User;
 import com.example.demo.user.domain.UserCreate;
@@ -22,11 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Builder
 public class UserCreateController {
 
-    private final UserCreateService userCreateService;
+    private final UserService userService;
 
     @PostMapping
     public ResponseEntity<UserResponse> createUser(@RequestBody UserCreate userCreateDto) {
-        User user = userCreateService.create(userCreateDto);
+        User user = userService.create(userCreateDto);
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(UserResponse.from(user));
