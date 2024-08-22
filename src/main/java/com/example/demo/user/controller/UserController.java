@@ -35,7 +35,7 @@ public class UserController {
 
     @ResponseStatus
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> getUserById(@PathVariable long id) {
+    public ResponseEntity<UserResponse> getById(@PathVariable long id) {
         return ResponseEntity
             .ok()
             .body(UserResponse.from(userService.getById(id)));

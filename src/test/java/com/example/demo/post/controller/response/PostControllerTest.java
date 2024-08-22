@@ -6,24 +6,14 @@ import com.example.demo.post.domain.Post;
 import com.example.demo.post.domain.PostUpdate;
 import com.example.demo.user.domain.User;
 import com.example.demo.user.domain.UserStatus;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatusCode;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlGroup;
-import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class PostControllerTest {
 
@@ -50,7 +40,7 @@ public class PostControllerTest {
                 .build());
 
         // when
-        ResponseEntity<PostResponse> result = testContainer.postController.getPostById(1);
+        ResponseEntity<PostResponse> result = testContainer.postController.getById(1);
 
         // then
         assertThat(result.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
@@ -69,7 +59,7 @@ public class PostControllerTest {
         // when
         // then
         assertThatThrownBy(() -> {
-            testContainer.postController.getPostById(1);
+            testContainer.postController.getById(1);
         }).isInstanceOf(ResourceNotFoundException.class);
    }
 
@@ -97,7 +87,7 @@ public class PostControllerTest {
                 .build());
 
         // when
-        ResponseEntity<PostResponse> result = testContainer.postController.updatePost(1L, PostUpdate.builder()
+        ResponseEntity<PostResponse> result = testContainer.postController.update(1L, PostUpdate.builder()
                 .content("gu")
                 .build());
 

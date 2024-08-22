@@ -4,30 +4,15 @@ import com.example.demo.common.domain.exception.CertificationCodeNotMatchedExcep
 import com.example.demo.common.domain.exception.ResourceNotFoundException;
 import com.example.demo.mock.TestClockHolder;
 import com.example.demo.mock.TestContainer;
-import com.example.demo.user.controller.UserController;
 import com.example.demo.user.domain.*;
-import com.example.demo.user.infrastructure.UserEntity;
-import com.example.demo.user.infrastructure.UserJpaRepository;
-import com.example.demo.user.service.UserServiceImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatusCode;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlGroup;
-import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class UserControllerTest {
 
@@ -47,7 +32,7 @@ public class UserControllerTest {
                 .build());
 
         // when
-        ResponseEntity<UserResponse> result = testContainer.userController.getUserById(1);
+        ResponseEntity<UserResponse> result = testContainer.userController.getById(1);
 
         // then
         assertThat(result.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
@@ -67,7 +52,7 @@ public class UserControllerTest {
         // when
         // then
         assertThatThrownBy(()->{
-            testContainer.userController.getUserById(1);
+            testContainer.userController.getById(1);
         }).isInstanceOf(ResourceNotFoundException.class);
 
     }
