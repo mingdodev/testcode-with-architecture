@@ -13,28 +13,19 @@ import com.example.demo.user.domain.UserUpdate;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlGroup;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 
-public class UserServiceTest {
+public class UserServiceImplTest {
 
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @BeforeEach
     void init() {
         FakeMailSender fakeMailSender = new FakeMailSender();
         FakeUserRepository fakeUserRepository = new FakeUserRepository();
-        this.userService = UserService.builder()
+        this.userServiceImpl = UserServiceImpl.builder()
                 .uuidHolder(new TestUuidHolder("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"))
                 .clockHolder(new TestClockHolder(1678530673958L))
                 .userRepository(fakeUserRepository)
@@ -68,7 +59,7 @@ public class UserServiceTest {
         String email = "user1@naver.com";
 
         // when
-        User result = userService.getByEmail(email);
+        User result = userServiceImpl.getByEmail(email);
 
         // then
         Assertions.assertThat(result.getNickname()).isEqualTo("user1");
@@ -83,7 +74,7 @@ public class UserServiceTest {
         // then
         // 해당 람다식이 호출되면 이 에러가 발생한다.
         assertThatThrownBy(() -> {
-            User result = userService.getByEmail(email);
+            User result = userServiceImpl.getByEmail(email);
         }).isInstanceOf(ResourceNotFoundException.class);
     }
 
@@ -91,7 +82,7 @@ public class UserServiceTest {
     void getById은_ACTIVE_상태인_유저를_찾아올_수_있다() {
         // given
         // when
-        User result = userService.getById(1);
+        User result = userServiceImpl.getById(1);
 
         // then
         Assertions.assertThat(result.getNickname()).isEqualTo("user1");
@@ -104,7 +95,7 @@ public class UserServiceTest {
         // then
         // 해당 람다식이 호출되면 이 에러가 발생한다.
         assertThatThrownBy(() -> {
-            User result = userService.getById(2);
+            User result = userServiceImpl.getById(2);
         }).isInstanceOf(ResourceNotFoundException.class);
     }
 
@@ -118,7 +109,7 @@ public class UserServiceTest {
                 .build();
 
         // when
-        User result = userService.create(userCreateDto);
+        User result = userServiceImpl.create(userCreateDto);
 
         // then
         Assertions.assertThat(result.getId()).isNotNull();
@@ -135,10 +126,10 @@ public class UserServiceTest {
                 .build();
 
         // when
-        userService.update(1, userUpdateDto);
+        userServiceImpl.update(1, userUpdateDto);
 
         // then
-        User user = userService.getById(1);
+        User user = userServiceImpl.getById(1);
         Assertions.assertThat(user.getId()).isNotNull();
         Assertions.assertThat(user.getAddress()).isEqualTo("Incheon");
         Assertions.assertThat(user.getNickname()).isEqualTo("userHI");
@@ -148,10 +139,10 @@ public class UserServiceTest {
     void user를_로그인_시키면_마지막_로그인_시간이_변경된다() {
         // given
         // when
-        userService.login(1);
+        userServiceImpl.login(1);
 
         // then
-        User user = userService.getById(1);
+        User user = userServiceImpl.getById(1);
         Assertions.assertThat(user.getLastLoginAt()).isEqualTo(1678530673958L);
     }
 
@@ -159,10 +150,10 @@ public class UserServiceTest {
     void PENDING_상태의_사용자는_인증코드로_ACTIVE시킬수있다() {
         // given
         // when
-        userService.verifyEmail(2, "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaab");
+        userServiceImpl.verifyEmail(2, "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaab");
 
         // then
-        User user = userService.getById(2);
+        User user = userServiceImpl.getById(2);
         Assertions.assertThat(user.getStatus()).isEqualTo(UserStatus.ACTIVE);
     }
 
@@ -172,7 +163,7 @@ public class UserServiceTest {
         // when
         // then
        assertThatThrownBy(()->{
-           userService.verifyEmail(2, "aaaadaaa-aaaa-aaaa-aaaa-aaaaaaaaaaab");
+           userServiceImpl.verifyEmail(2, "aaaadaaa-aaaa-aaaa-aaaa-aaaaaaaaaaab");
        }).isInstanceOf(CertificationCodeNotMatchedException.class);
     }
 }

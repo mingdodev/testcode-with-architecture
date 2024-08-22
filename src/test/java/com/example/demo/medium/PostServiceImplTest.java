@@ -3,7 +3,7 @@ package com.example.demo.medium;
 import com.example.demo.post.domain.Post;
 import com.example.demo.post.domain.PostCreate;
 import com.example.demo.post.domain.PostUpdate;
-import com.example.demo.post.service.PostService;
+import com.example.demo.post.service.PostServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +18,15 @@ import org.springframework.test.context.jdbc.SqlGroup;
         @Sql(value = "/sql/post-service-test-data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
         @Sql(value = "/sql/delete-all-data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 })
-public class PostServiceTest {
+public class PostServiceImplTest {
     @Autowired
-    private PostService postService;
+    private PostServiceImpl postServiceImpl;
 
     @Test
     void getById는_존재하는_게시물을_내려준다() {
         // given
         // when
-        Post result = postService.getById(1);
+        Post result = postServiceImpl.getById(1);
 
         // then
         Assertions.assertThat(result.getContent()).isEqualTo("helloworld");
@@ -42,7 +42,7 @@ public class PostServiceTest {
                 .build();
 
         // when
-        Post result = postService.create(postCreateDto);
+        Post result = postServiceImpl.create(postCreateDto);
 
         // then
         System.out.println(result.getModifiedAt());
@@ -59,10 +59,10 @@ public class PostServiceTest {
                 .build();
 
         // when
-        postService.update(1, postUpdate);
+        postServiceImpl.update(1, postUpdate);
 
         // then
-        Post post = postService.getById(1);
+        Post post = postServiceImpl.getById(1);
         Assertions.assertThat(post.getContent()).isEqualTo("그러지마세요");
         Assertions.assertThat(post.getModifiedAt()).isGreaterThan(0);
     }
